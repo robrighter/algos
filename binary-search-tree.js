@@ -1,61 +1,53 @@
 
 
 function BSR(){
+	this.root = null;
+}
 
-	var root = null;
+BSR.prototype.makeNode = function(value, left, right){
+	return {
+		value: value,
+		left: left ? left : false,
+		right: right ? right : false
+	};
+}
 
-	this.makeNode = function(value, left, right){
-		return {
-			value: value,
-			left: left ? left : false,
-			right: right ? right : false
-		};
+BSR.prototype.printTree = function(){
+	console.log(this.root);
+}
+
+BSR.prototype.insert = function(value){
+	this.root = this._insert(value,this.root);
+}
+
+BSR.prototype._insert = function(value, tree){
+	if(!tree){
+		tree = this.makeNode(value);
 	}
-
-	this.printTree = function(){
-		console.log(root);
-	}
-
-	this.insert = function(value){
-		if(root === null){
-			root = this.insertItem(value, false); 
+	else{
+		if(value < tree.value){
+			tree.left = this._insert(value, tree.left);
 		}
 		else{
-			this.insertItem(value, root);
+			tree.right = this._insert(value, tree.right);
 		}
 	}
+	return tree;
+}
 
-	this.insertItem = function(value, tree){
-		if(!tree){
-			tree = this.makeNode(value);
-		}
-		else{
-			if(value < tree.value){
-				tree.left = this.insertItem(value, tree.left);
-			}
-			else{
-				tree.right = this.insertItem(value, tree.right);
-			}
-		}
-		return tree;
+BSR.prototype.traverseLeft = function(tree){
+	if(!tree){
+		tree = this.root;
 	}
-
-	this.traverseLeft = function(){
-		return this.tLeft(root);
+	var result = [];
+	if(tree.left){
+		result = result.concat(this.traverseLeft(tree.left));
 	}
-
-	this.tLeft = function(tree){
-		var result = [];
-		if(tree.left){
-			result = result.concat(this.tLeft(tree.left));
-		}
-		result = result.concat([tree.value]);
-		if(tree.right){
-			result = result.concat(this.tLeft(tree.right));
-		}
-		return result;
+	result = result.concat([tree.value]);
+	if(tree.right){
+		result = result.concat(this.traverseLeft(tree.right));
 	}
-
+	return result;
 }
 
 
