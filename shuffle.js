@@ -20,12 +20,10 @@ function shuffle(inArr, rand){
 	return inArr;
 }
 
-
 //tests
 var assert = require('assert');
 var testArr = [0,1,2,3,4,5,6,7,8,9];
 var actual = shuffle(testArr, makeRandomInteger);
-
 
 //first test that all the numbers are present
 testArr.forEach(function(item){
